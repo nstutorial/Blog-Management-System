@@ -9,10 +9,10 @@ const blogSettingSchema =mongoose.Schema({
         type:String,
         require:true
     },
-    blogdescription:{
+    description:{
         type:String,
         require:true
-    },
+    }
     
 });
 module.exports =mongoose.model("BlogSetting",blogSettingSchema);

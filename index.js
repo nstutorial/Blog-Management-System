@@ -11,7 +11,11 @@ app.use(isBlog.isBlog)
 
 //admin routes
 const admin_route = require('./routes/adminRoute');
-app.use('/',admin_route)
+app.use('/',admin_route);
+
+//user routes
+const user_route = require('./routes/userRoute');
+app.use('/',user_route);
 
 app.listen(3000, ()=>{
     console.log("server is running");

@@ -23,8 +23,9 @@ const storage =multer.diskStorage({
 const upload = multer({storage:storage});
 const adminController = require("../controllers/adminController");
 
-admin_route.get('/login',adminController.login);
+// admin_route.get('/login',adminController.login);
 admin_route.get('/blog-setup',adminController.blogSetup);
+admin_route.post('/blog-setup',upload.single('blog_image'), adminController.blogSetupSave);
 
 
 module.exports = admin_route;

@@ -41,4 +41,11 @@
     </form>
 
 </div>
+<% 
+    if(typeof message != 'undefined'){
+        %>
+            <p style="color: red;"><%= message %></p>
+        <%
+    }
+%>
 <%- include("./layout/footer.ejs") %>

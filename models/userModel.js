@@ -13,7 +13,7 @@ const userSchema =mongoose.Schema({
         type:String,
         require:true
     },
-    isAdmin:{
+    is_Admin:{
         type:String,
         require:true
     },
