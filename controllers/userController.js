@@ -51,9 +51,18 @@ const profile =()=>{
         console.log(error.message);
     }
 }
+const logout =async(req,res)=>{
+    try {
+        await req.session.destroy();
+        res.redirect('/login');
+    } catch (error) {
+        console.log(error.message);
+    }
+}
 
 module.exports ={
     loadLogin,
     verifyLogin,
-    profile
+    profile,
+    logout
 }

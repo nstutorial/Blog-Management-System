@@ -24,6 +24,8 @@ const adminLoginAuth = require('../middlewares/adminLoginAuth')
 
 user_route.get("/login",adminLoginAuth.isLogout,userController.loadLogin);
 user_route.post("/login",userController.verifyLogin);
-user_route.get('/profile', userController.profile)
+user_route.get("/logout",adminLoginAuth.isLogin,userController.logout);
+
+user_route.get('/profile', userController.profile);
 
 module.exports =user_route;

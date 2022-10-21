@@ -18,6 +18,10 @@ app.use('/',admin_route);
 const user_route = require('./routes/userRoute');
 app.use('/',user_route);
 
+//blog routes
+const blogRoute = require('./routes/blogRoute');
+app.use('/',blogRoute);
+
 app.listen(process.env.PORT || 3000, ()=>{
     console.log("server is running");
 })
