@@ -6,8 +6,13 @@ user_route.use(bodyParser.json());
 user_route.use(bodyParser.urlencoded({extended:true}));
 
 const session = require('express-session');
-const config = require('../config/config')
-user_route.use(session({secret:config.sessionSecret}));
+const config = require('../config/config');
+user_route.use(session({
+    secret: config.sessionSecret,
+    resave: false,
+    saveUninitialized: true,
+    cookie: { secure: true }
+  }))
 
 user_route.set('view engine','ejs');
 user_route.set('views','./views');
