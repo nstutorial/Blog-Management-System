@@ -1,3 +1,4 @@
+ require('dotenv').config
  const mongoose = require("mongoose");
 const URL = "mongodb+srv://bmsnimai:BMSNimai123@cluster0.jhpy8nd.mongodb.net/BMS?retryWrites=true&w=majority"
 mongoose.connect(URL);
@@ -17,6 +18,6 @@ app.use('/',admin_route);
 const user_route = require('./routes/userRoute');
 app.use('/',user_route);
 
-app.listen(3000, ()=>{
+app.listen(process.env.PORT || 3000, ()=>{
     console.log("server is running");
 })
