@@ -32,8 +32,14 @@
                     <div class="card bg-light">
                         <div class="card-body">
                             <!-- Comment form-->
-                            <form class="mb-4"><textarea class="form-control" rows="3"
-                                    placeholder="Join the discussion and leave a comment!"></textarea></form>
+                            <h4>Leave a comment</h4>
+                            <form class="mb-4" id="comment-form">
+                                <input type="text" name="username" placeholder="Enter Your Name" class="form-control mb-3" required>
+                                <textarea class="form-control" name="comment" required rows="3" placeholder="Join the discussion and leave a comment!">
+                                </textarea>
+                                <input type="submit" value="Submit" class="btn btn-primary mt-3">
+                            </form>
+                            <p class="com-status" style="color: green;"></p>
                             <!-- Comment with nested comments-->
                             <div class="d-flex mb-4">
                                 <!-- Parent comment-->
@@ -123,5 +129,13 @@
             </div>
         </div>
     </div>
+    <script>
+        // jQuery code.....................
+        $(document).ready(function(){
+            $('#comment-form').submit(function(event){
+                event.preventDefault();
+            });
+        });
+    </script>
 
     <%- include('./layout/footer.ejs') %>

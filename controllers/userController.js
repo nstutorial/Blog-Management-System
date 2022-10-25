@@ -106,13 +106,13 @@ const forgetLoad =async(req,res)=>{
         console.log(error.message);
     }
 }
-const randomstrings = randomstring.generate()
+const randomstrings = randomstring.generate();
 const forgetPasswordVerified =async(req,res)=>{
     try {
         const email = req.body.email;
       
       const userData =await User.findOne({email:email})
-      console.log(userData);
+    //   console.log(userData);
       if(userData){
     //   console.log(randomstrings);
       await User.updateOne({email:email},{$set:{ token:randomstrings}})
@@ -130,7 +130,7 @@ const resetPasswordLoad =async(req,res)=>{
     try {
      const token =req.query.token;
       const tokenData =await User.findOne({token:token});
-      console.log(tokenData);
+    //   console.log(tokenData);
       if(tokenData){
         
         res.render('reset-password',{user_id:tokenData._id});
@@ -146,7 +146,7 @@ const resetPassword =async(req,res)=>{
     const password = req.body.password;
     const user_id = req.body.user_id;
     const securePassword = await adminController.securePassword(password);    
-    await User.findByIdAndUpdate({_id:user_id},{$set:{password:securePassword,token:''}});
+    await User.findByIdAndUpdate({_id:user_id.trim()},{$set:{password:securePassword,token:''}});
     
     res.redirect('/login');
    } catch (error) {
