@@ -98,22 +98,24 @@ const logout =async(req,res)=>{
 
 const forgetLoad =async(req,res)=>{
     try {
-        res.render('forget-passwrd');
+        res.render('forget-password');
     } catch (error) {
         console.log(error.message);
     }
 }
+const randomstrings = randomstring.generate()
 const forgetPasswordVerified =async(req,res)=>{
     try {
        const email = req.body.email;
       const userData = User.findOne({email:email})
+      console.log(userData);
       if(userData){
-       const randomstring = randomstring.generate();
-      await User.updateOne({email:email},{$set:{ token:randomstring}});
-      sendResetPasswordMail(userData.name,userData.email,randomstring);
-      res.render('forget',{message:"Plesae Check Your mail to reset your password"})
+      
+      await User.updateOne({email:email},{$set:{ token:randomstrings}});
+      sendResetPasswordMail(userData.name,userData.email,randomstrings);
+      res.render('forget-password',{message:"Plesae Check Your mail to reset your password"})
       }else{
-        res.render('forget',{message:"User Email is incorrect"});
+        res.render('forget-password',{message:"User Email is incorrect"});
       }
     } catch (error) {
         console.log(error.message);
