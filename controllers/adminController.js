@@ -99,5 +99,6 @@ module.exports ={
     blogSetupSave,
     dashboard,
     loadPostDashboard,
-    addPost
+    addPost,
+    securePassword
 }

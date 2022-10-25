@@ -4,9 +4,11 @@ const bcrypt = require('bcrypt');
 const nodemailer = require("nodemailer");
 const randomstring = require("randomstring");
 const config = require("../config/config");
+const adminController = require('./adminController');
 
-const sendResetPasswordMail = async(re,res)=>{
+const sendResetPasswordMail = async(name,email,token)=>{
     try {
+       
      const transport =  nodemailer.createTransport({
         host:'smtp.gmail.com',
         port:587,
@@ -20,9 +22,10 @@ const sendResetPasswordMail = async(re,res)=>{
 
        const mailOption ={
         from:config.emailUser,
-        to:email,
+        to: email,
         subject:'Reset Password',
-        html:'<p>Hi '+name+',Plesa Check here to <a href="http://localhost:3000/reset-password?token='+token+'">Reset</a>your password'
+        html:'<p>Hi '+name+',Please Check here to <a href="http://localhost:3000/reset-password?token='+token+'">Reset</a>your password'
+        // html:'<p>Hi  Plesa Check here to <a href="http://localhost:3000/reset-password?token">Reset</a>your password'
         
        }
        transport.sendMail(mailOption,function(error,info){
@@ -106,12 +109,13 @@ const forgetLoad =async(req,res)=>{
 const randomstrings = randomstring.generate()
 const forgetPasswordVerified =async(req,res)=>{
     try {
-       const email = req.body.email;
-      const userData = User.findOne({email:email})
+        const email = req.body.email;
+      
+      const userData =await User.findOne({email:email})
       console.log(userData);
       if(userData){
-      
-      await User.updateOne({email:email},{$set:{ token:randomstrings}});
+    //   console.log(randomstrings);
+      await User.updateOne({email:email},{$set:{ token:randomstrings}})
       sendResetPasswordMail(userData.name,userData.email,randomstrings);
       res.render('forget-password',{message:"Plesae Check Your mail to reset your password"})
       }else{
@@ -121,11 +125,41 @@ const forgetPasswordVerified =async(req,res)=>{
         console.log(error.message);
     }
 }
+
+const resetPasswordLoad =async(req,res)=>{
+    try {
+     const token =req.query.token;
+      const tokenData =await User.findOne({token:token});
+      console.log(tokenData);
+      if(tokenData){
+        
+        res.render('reset-password',{user_id:tokenData._id});
+      }else{
+        res.render('404');
+      }
+    } catch (error) {
+        console.log(error.message);
+    }
+}
+const resetPassword =async(req,res)=>{
+   try {
+    const password = req.body.password;
+    const user_id = req.body.user_id;
+    const securePassword = await adminController.securePassword(password);    
+    await User.findByIdAndUpdate({_id:user_id},{$set:{password:securePassword,token:''}});
+    
+    res.redirect('/login');
+   } catch (error) {
+    console.log(error.message);
+   }
+}
 module.exports ={
     loadLogin,
     verifyLogin,
     profile,
     logout,
     forgetLoad,
-    forgetPasswordVerified
+    forgetPasswordVerified,
+    resetPasswordLoad,
+    resetPassword
 }
